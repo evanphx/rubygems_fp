@@ -1,0 +1,7 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+lib/rubygems_fp.rb
+test/test_rubygems_fp.rb
