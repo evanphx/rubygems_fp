@@ -73,7 +73,7 @@ class TestRubyGemsFPSpecification < Test::Unit::TestCase
     return spec
   end
   
-  def test_sanity
+  def test_gem_dir
     a = quick_gem "a", "2"
 
     s = RubyGemsFP::Specification.new(a)
