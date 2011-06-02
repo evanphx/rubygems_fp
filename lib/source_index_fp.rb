@@ -4,14 +4,10 @@
 # See LICENSE.txt for permissions.
 #++
 
+require 'rubygems_fp'
+
 require 'rubygems/user_interaction'
 require 'rubygems/specification'
-
-# :stopdoc:
-module Gem
-  autoload :SpecFetcher, 'rubygems/spec_fetcher'
-end
-# :startdoc:
 
 ##
 # The SourceIndex object indexes all the gems available from a
@@ -24,7 +20,7 @@ end
 #        constant Gem::Cache is an alias for this class to allow old
 #        YAMLized source index objects to load properly.
 
-class Gem::SourceIndex
+class RubyGemsFP::SourceIndex
 
   include Enumerable
 

@@ -183,17 +183,17 @@ class RubyGemTestCase < MiniTest::Unit::TestCase
   end
 
   def prep_cache_files(lc)
-    @usr_si ||= Gem::SourceIndex.new
+    @usr_si ||= RubyGemsFP::SourceIndex.new
     @usr_sice ||= Gem::SourceInfoCacheEntry.new @usr_si, 0
 
-    @sys_si ||= Gem::SourceIndex.new
+    @sys_si ||= RubyGemsFP::SourceIndex.new
     @sys_sice ||= Gem::SourceInfoCacheEntry.new @sys_si, 0
 
-    latest_si = Gem::SourceIndex.new
+    latest_si = RubyGemsFP::SourceIndex.new
     latest_si.add_specs(*@sys_si.latest_specs)
     latest_sys_sice = Gem::SourceInfoCacheEntry.new latest_si, 0
 
-    latest_si = Gem::SourceIndex.new
+    latest_si = RubyGemsFP::SourceIndex.new
     latest_si.add_specs(*@usr_si.latest_specs)
     latest_usr_sice = Gem::SourceInfoCacheEntry.new latest_si, 0
 
@@ -242,7 +242,6 @@ class RubyGemTestCase < MiniTest::Unit::TestCase
       s.author = 'A User'
       s.email = 'example@example.com'
       s.homepage = 'http://example.com'
-      s.has_rdoc = true
       s.summary = "this is a summary"
       s.description = "This is a test description"
 
@@ -256,7 +255,7 @@ class RubyGemTestCase < MiniTest::Unit::TestCase
 
     spec.loaded_from = written_path
 
-    Gem.source_index.add_spec spec
+    # @source_index.add_spec spec
 
     return spec
   end
@@ -284,7 +283,7 @@ class RubyGemTestCase < MiniTest::Unit::TestCase
   def util_clear_gems
     FileUtils.rm_r File.join(@gemhome, 'gems')
     FileUtils.rm_r File.join(@gemhome, 'specifications')
-    Gem.source_index.refresh!
+    @source_index.refresh!
   end
 
   def util_gem(name, version, &block)
@@ -366,8 +365,6 @@ Also, a list:
     end
 
     FileUtils.rm_r File.join(@gemhome, 'gems', @pl1.original_name)
-
-    Gem.source_index = nil
   end
 
   ##
@@ -388,6 +385,7 @@ Also, a list:
     require 'socket'
     require 'rubygems/remote_fetcher'
 
+    @source_index = RubyGemsFP::SourceIndex.new
     @fetcher = Gem::FakeFetcher.new
 
     util_make_gems(prerelease)
@@ -398,7 +396,6 @@ Also, a list:
     gem_names = [@a1.full_name, @a2.full_name, @a3a.full_name, @b2.full_name]
     @gem_names = gem_names.sort.join("\n")
 
-    @source_index = Gem::SourceIndex.new
     @source_index.add_spec @a1
     @source_index.add_spec @a2
     @source_index.add_spec @a3a
@@ -411,7 +408,7 @@ Also, a list:
 
   def util_setup_spec_fetcher(*specs)
     specs = Hash[*specs.map { |spec| [spec.full_name, spec] }.flatten]
-    si = Gem::SourceIndex.new specs
+    si = RubyGemsFP::SourceIndex.new specs
 
     spec_fetcher = Gem::SpecFetcher.fetcher
 

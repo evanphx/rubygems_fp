@@ -1,4 +1,4 @@
-require "test/unit"
+require "minitest/autorun"
 require "rubygems_fp"
 require "yaml"
 require "pathname"
@@ -7,7 +7,7 @@ require "rubygems"
 
 STDERR.puts "===== Testing against RubyGems: #{Gem::VERSION}"
 
-class TestRubyGemsFPSpecification < Test::Unit::TestCase
+class TestRubyGemsFPSpecification < MiniTest::Unit::TestCase
 
   def setup
     tmpdir = File.expand_path("tmp/test")

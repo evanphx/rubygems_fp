@@ -2,7 +2,7 @@ require File.expand_path('../gemutilities', __FILE__)
 require File.expand_path('../../lib/source_index_fp', __FILE__)
 require 'rubygems/config_file'
 
-class Gem::SourceIndex
+class RubyGemsFP::SourceIndex
   public :fetcher, :fetch_bulk_index, :fetch_quick_index,
          :find_missing, :gems, :remove_extra,
          :update_with_missing, :unzip
@@ -31,7 +31,7 @@ class TestGemSourceIndex < RubyGemTestCase
       fp.write a1.to_ruby
     end
 
-    si = Gem::SourceIndex.from_gems_in spec_dir
+    si = RubyGemsFP::SourceIndex.from_gems_in spec_dir
 
     assert_equal [spec_dir], si.spec_dirs
     assert_equal [a1.full_name], si.gems.keys
@@ -52,7 +52,7 @@ class TestGemSourceIndex < RubyGemTestCase
       fp.write a1.to_ruby
     end
 
-    spec = Gem::SourceIndex.load_specification spec_file
+    spec = RubyGemsFP::SourceIndex.load_specification spec_file
 
     assert_equal a1.author, spec.author
   end
@@ -97,7 +97,7 @@ end
 
     File.open spec_file, 'w' do |io| io.write spec_data end
 
-    spec = Gem::SourceIndex.load_specification spec_file
+    spec = RubyGemsFP::SourceIndex.load_specification spec_file
 
     pi = "\317\200"
     pi.force_encoding 'UTF-8' if pi.respond_to? :force_encoding
@@ -117,7 +117,7 @@ end
     end
 
     use_ui @ui do
-      assert_equal nil, Gem::SourceIndex.load_specification(spec_file)
+      assert_equal nil, RubyGemsFP::SourceIndex.load_specification(spec_file)
     end
 
     assert_equal '', @ui.output
@@ -144,7 +144,7 @@ WARNING:  Invalid .gemspec format in '#{spec_file}'
 
     use_ui @ui do
       assert_raises Interrupt do
-        Gem::SourceIndex.load_specification(spec_file)
+        RubyGemsFP::SourceIndex.load_specification(spec_file)
       end
     end
 
@@ -164,7 +164,7 @@ WARNING:  Invalid .gemspec format in '#{spec_file}'
     end
 
     use_ui @ui do
-      assert_equal nil, Gem::SourceIndex.load_specification(spec_file)
+      assert_equal nil, RubyGemsFP::SourceIndex.load_specification(spec_file)
     end
 
     assert_equal '', @ui.output
@@ -186,7 +186,7 @@ WARNING:  Invalid .gemspec format in '#{spec_file}'
 
     use_ui @ui do
       assert_raises SystemExit do
-        Gem::SourceIndex.load_specification(spec_file)
+        RubyGemsFP::SourceIndex.load_specification(spec_file)
       end
     end
 
@@ -221,7 +221,7 @@ WARNING:  Invalid .gemspec format in '#{spec_file}'
     assert_equal [], @source_index.find_name('bogusstring')
     assert_equal [], @source_index.find_name('a', '= 3')
 
-    source_index = Gem::SourceIndex.new
+    source_index = RubyGemsFP::SourceIndex.new
     source_index.add_spec @a1
     source_index.add_spec @a2
 
@@ -232,7 +232,7 @@ WARNING:  Invalid .gemspec format in '#{spec_file}'
   end
 
   def test_find_name_empty_cache
-    empty_source_index = Gem::SourceIndex.new({})
+    empty_source_index = RubyGemsFP::SourceIndex.new({})
     assert_equal [], empty_source_index.find_name("foo")
   end
 
@@ -338,7 +338,7 @@ WARNING:  Invalid .gemspec format in '#{spec_file}'
 
     FileUtils.mv a1_spec, @tempdir
 
-    source_index = Gem::SourceIndex.from_installed_gems
+    source_index = RubyGemsFP::SourceIndex.from_installed_gems
 
     refute source_index.gems.include?(@a1.full_name)
 
@@ -350,7 +350,7 @@ WARNING:  Invalid .gemspec format in '#{spec_file}'
   end
 
   def test_refresh_bang_not_from_dir
-    source_index = Gem::SourceIndex.new
+    source_index = RubyGemsFP::SourceIndex.new
 
     e = assert_raises RuntimeError do
       source_index.refresh!
@@ -415,7 +415,7 @@ WARNING:  Invalid .gemspec format in '#{spec_file}'
       s.platform = Gem::Platform.new 'x86-other_platform1'
     end
 
-    si = Gem::SourceIndex.new(a1.full_name => a1, a1_mine.full_name => a1_mine,
+    si = RubyGemsFP::SourceIndex.new(a1.full_name => a1, a1_mine.full_name => a1_mine,
                               a1_other.full_name => a1_other)
 
     dep = Gem::Dependency.new 'a', Gem::Requirement.new('1')

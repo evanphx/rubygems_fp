@@ -1,8 +1,8 @@
 require "rubygems"
 require "rubygems_fp"
-require "test/unit"
+require 'minitest/autorun'
 
-class TestRubyGemsFPGemFile < Test::Unit::TestCase
+class TestRubyGemsFPGemFile < MiniTest::Unit::TestCase
   def setup
     @path = File.expand_path("../test-1.0.gem", __FILE__)
   end
