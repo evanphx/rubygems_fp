@@ -1,9 +1,9 @@
+require "rubygems"
 require "minitest/autorun"
 require "rubygems_fp"
 require "yaml"
 require "pathname"
 require "fileutils"
-require "rubygems"
 
 STDERR.puts "===== Testing against RubyGems: #{Gem::VERSION}"
 
