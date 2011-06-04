@@ -45,3 +45,6 @@ class RubyGemsFP
 
   end
 end
+
+# Candidate name for possible future use
+RubyGemsForever = RubyGemsFP
