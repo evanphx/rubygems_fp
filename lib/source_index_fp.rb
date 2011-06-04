@@ -578,15 +578,3 @@ class RubyGemsFP::SourceIndex
   end
 
 end
-
-# :stopdoc:
-module Gem
-
-  ##
-  # Cache is an alias for SourceIndex to allow older YAMLized source index
-  # objects to load properly.
-
-  Cache = SourceIndex
-
-end
-# :startdoc:
